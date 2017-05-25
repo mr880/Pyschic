@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<title>The Psychic Game</title>
+		<h1>The Pyschic game</h1>
+		<h4>Guess what letter I'm thinking of</h4>
+
+	</head>
+	<body>
+		<p id="wins">Wins: 0</p>
+		<p id="losses">Losses: 0</p>
+		<p id="guessesLeft">Guesses Left: 9</p>
+		<p id="guesses">Your Guesses so far: </p>
+	</body>
+	<script type="text/javascript">
+		
+		//global vars
+		var wins = 0;
+		var losses = 0;
+		var guessesLeft = 9;
+		var allGuesses=[];
+		var i=0;
+
+		
+
+		//create an array of chars
+		var letters = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+
+		//pick a random letter from the letters array
+		var randomLetter = letters[Math.floor(Math.random()*letters.length)];
+		console.log("initial letter: "+randomLetter);
+		
+
+		//enter a keystroke/guess
+		document.onkeyup= function(event){
+			
+			var key = event.key;
+			//temporary console checker
+			
+			
+			
+			//keeps track of incorrect entries on screen
+			function print(){
+
+				var guesses = document.getElementById("guesses");
+
+				guesses.innerHTML = "Your Guesses so far: " + allGuesses;
+
+			}
+
+			function gameReset(){
+
+				//reset guesses 
+				guessesLeft=9;
+				var counter = document.getElementById("guessesLeft");
+				counter.innerHTML = "Guesses Left: " + guessesLeft;
+				//reset random letter
+				randomLetter = letters[Math.floor(Math.random()*letters.length)];
+				//reset Guesses
+				allGuesses=[];
+				i=0;
+				//test
+				console.log(randomLetter);
+
+			}
+			
+			//checks that key is letter
+			if(letters.indexOf(key) > -1){
+				//checks if key is not in array
+				var a = allGuesses.indexOf(key);
+
+				console.log(a);
+				if( a == -1){
+
+					allGuesses[i]=key;
+					i++;
+					
+					if(key!=randomLetter){
+
+						print();
+
+						guessesLeft--;
+
+						var counter = document.getElementById("guessesLeft");
+
+						counter.innerHTML = "Guesses Left: " + guessesLeft;
+
+					}
+
+					//win
+					else{
+
+						wins++;
+
+						var winner = document.getElementById("wins");
+
+						winner.innerHTML = "Wins: " + wins;
+
+						gameReset();
+					}
+
+	
+				}
+				//decriments guesses you have left
+				// else if(key!=randomLetter){
+
+				// 	print();
+
+				// 	guessesLeft--;
+
+				// 	var counter = document.getElementById("guessesLeft");
+
+				// 	counter.innerHTML = "Guesses Left: " + guessesLeft;
+				// }
+
+				// //win
+				// else if(key==randomLetter){
+
+				// 	wins++;
+
+				// 	var winner = document.getElementById("wins");
+
+				// 	winner.innerHTML = "Wins: " + wins;
+
+				// 	gameReset();
+				// }
+
+
+				if(guessesLeft==0){
+					//when you lose a game
+					losses++;
+
+					var lose = document.getElementById("losses");
+
+					lose.innerHTML = "Losses: " + losses;
+					gameReset();
+				}
+
+				
+			}
+
+		}
+
+
+
+	</script>
+</html>
