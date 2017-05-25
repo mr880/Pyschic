@@ -14,40 +14,31 @@
 	</body>
 	<script type="text/javascript">
 		
-		//global vars
+		//initialize global variables
 		var wins = 0;
 		var losses = 0;
 		var guessesLeft = 9;
 		var allGuesses=[];
 		var i=0;
-
-		
-
-		//create an array of chars
 		var letters = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 
-		//pick a random letter from the letters array
+		//pick a target letter
 		var randomLetter = letters[Math.floor(Math.random()*letters.length)];
 		console.log("initial letter: "+randomLetter);
 		
-
-		//enter a keystroke/guess
+		//keystroke event function
 		document.onkeyup= function(event){
 			
 			var key = event.key;
-			//temporary console checker
 			
-			
-			
-			//keeps track of incorrect entries on screen
+			//prints guesses to screen
 			function print(){
 
 				var guesses = document.getElementById("guesses");
-
 				guesses.innerHTML = "Your Guesses so far: " + allGuesses;
-
 			}
 
+			//function for resetting games
 			function gameReset(){
 
 				//reset guesses 
@@ -61,78 +52,73 @@
 				i=0;
 				//test
 				console.log(randomLetter);
+				//resets "Your Guesses so far" to empty 
 				guesses.innerHTML = "Your Guesses so far: " + allGuesses;
 			}
+
+			//function for printing number of guesses left
+			function printNumGuesses(){
+
+				var counter = document.getElementById("guessesLeft");
+
+				counter.innerHTML = "Guesses Left: " + guessesLeft;
+			}
 			
-			//checks that key is letter
+			//function for printing number of wins on screen
+			function printWin(){
+			
+				var winner = document.getElementById("wins");
+
+				winner.innerHTML = "Wins: " + wins;
+
+			}
+
+			//function for printing number of losses on screen
+			function printLoss(){
+
+				var lose = document.getElementById("losses");
+
+				lose.innerHTML = "Losses: " + losses;
+
+			}
+
+			//checks that key is in the alphabet
 			if(letters.indexOf(key) > -1){
-				//checks if key is not in array
-				var a = allGuesses.indexOf(key);
-
-				console.log(a);
-				if( a == -1){
-
+				//checks if key is not in array (aka already chosen)
+				if( allGuesses.indexOf(key) == -1){
+					//at this point it is safe to add keys to the array so do so
 					allGuesses[i]=key;
+					//incriment index
 					i++;
 					
+					//incorrect letter condition
 					if(key!=randomLetter){
-
+						//write incorrect letter to screen
 						print();
-
+						//decriment number of guesses 
 						guessesLeft--;
-
-						var counter = document.getElementById("guessesLeft");
-
-						counter.innerHTML = "Guesses Left: " + guessesLeft;
+						//writes  to screen the number of guesses left
+						printNumGuesses();
 
 					}
 
-					//win
+					//win condition
 					else{
-
+						//incriment wins counter
 						wins++;
-
-						var winner = document.getElementById("wins");
-
-						winner.innerHTML = "Wins: " + wins;
-
+						//print win to the screen
+						printWin();
+						//reset game
 						gameReset();
 					}
-
-	
 				}
-				//decriments guesses you have left
-				// else if(key!=randomLetter){
-
-				// 	print();
-
-				// 	guessesLeft--;
-
-				// 	var counter = document.getElementById("guessesLeft");
-
-				// 	counter.innerHTML = "Guesses Left: " + guessesLeft;
-				// }
-
-				// //win
-				// else if(key==randomLetter){
-
-				// 	wins++;
-
-				// 	var winner = document.getElementById("wins");
-
-				// 	winner.innerHTML = "Wins: " + wins;
-
-				// 	gameReset();
-				// }
-
-
+				//loss conditional
 				if(guessesLeft==0){
-					//when you lose a game
+					//incriment losses
 					losses++;
-
-					var lose = document.getElementById("losses");
-
-					lose.innerHTML = "Losses: " + losses;
+					//print loss to the screen
+					printLoss();
+					//reset game
 					gameReset();
 				}
 
@@ -140,8 +126,6 @@
 			}
 
 		}
-
-
 
 	</script>
 </html>
